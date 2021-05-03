@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const Search = require('./util/search');
 const SpotifyWebApi = require('spotify-web-api-node');
 
 require('dotenv').config();
@@ -71,7 +70,7 @@ app.route('/query').post(async (req, res) => {
 			target_energy: req.body.energy,
 			target_instrumentalness: req.body.instrumentalness,
 			target_valence: req.body.valence,
-			limit: '10',
+			limit: '20',
 		})
 		.then((response) => {
 			console.log(response);

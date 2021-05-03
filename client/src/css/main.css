@@ -23,5 +23,33 @@
 }
 
 .data-value {
-	margin-top: 0;
+	margin: 0;
+}
+
+.song-list {
+	display: flex;
+	flex-wrap: wrap;
+	text-align: center;
+	justify-content: center;
+}
+
+label,
+h5 {
+	font-size: 1rem;
+}
+
+.container-1 {
+	display: inline-flex;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+}
+
+button {
+	font-family: Mandali;
+	font-size: 1.2rem;
+	background-color: rgb(162, 255, 182);
+	border-radius: 15%;
+	padding: 0% 0.5% 0% 0.5%;
+	margin-bottom: 2%;
 }

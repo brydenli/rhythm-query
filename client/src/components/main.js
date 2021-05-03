@@ -36,7 +36,7 @@ const Main = () => {
 			})
 			.catch((err) => {
 				console.log(err);
-				window.location = '/';
+				window.location = '/login';
 			});
 	}, []);
 
@@ -130,10 +130,189 @@ const Main = () => {
 			<div className='container'>
 				<div>
 					<h1>rhythm-query</h1>
-					<h5>{accessToken}</h5>
 				</div>
-				<div>
-					<RadarChart captions={captions} data={data} size={450} />
+
+				<div className='container-1'>
+					<div>
+						<div>
+							<label>Acousticness</label>
+							<input
+								type='range'
+								value={acousticness}
+								onChange={(e) => {
+									handleAcousticness(e);
+								}}
+								min='0'
+								max='1'
+								step='0.1'
+							/>
+							<h5 className='data-value'>{acousticness}</h5>
+						</div>
+						<div>
+							<label>Danceability</label>
+							<input
+								type='range'
+								value={danceability}
+								onChange={handleDanceability}
+								min='0'
+								max='1'
+								step='0.1'
+							/>
+							<h5 className='data-value'>{danceability}</h5>
+						</div>
+						<div>
+							<label>Energy</label>
+							<input
+								type='range'
+								value={energy}
+								onChange={handleEnergy}
+								min='0'
+								max='1'
+								step='0.1'
+							/>
+							<h5 className='data-value'>{energy}</h5>
+						</div>
+						<div>
+							<label>Instrumentalness</label>
+							<input
+								type='range'
+								value={instrumentalness}
+								onChange={handleInstrumentalness}
+								min='0'
+								max='1'
+								step='0.1'
+							/>
+							<h5 className='data-value'>{instrumentalness}</h5>
+						</div>
+						<div>
+							<label>Valence</label>
+							<input
+								type='range'
+								value={valence}
+								onChange={handleValence}
+								min='0'
+								max='1'
+								step='0.1'
+							/>
+							<h5 className='data-value'>{valence}</h5>
+						</div>
+						<div>
+							<label>Genre</label>
+							<input list='genres' onChange={handleGenre}></input>
+							<datalist id='genres'>
+								<option value='acoustic'></option>
+								<option value='afrobeat'></option>
+								<option value='alt-rock'></option>
+								<option value='alternative'></option>
+								<option value='ambient'></option>
+								<option value='anime'></option>
+								<option value='black-metal'></option>
+								<option value='bluegrass'></option>
+								<option value='blues'></option>
+								<option value='bossanova'></option>
+								<option value='brazil'></option>
+								<option value='breakbeat'></option>
+								<option value='cantopop'></option>
+								<option value='chicago-house'></option>
+								<option value='children'></option>
+								<option value='chill'></option>
+								<option value='club'></option>
+								<option value='comedy'></option>
+								<option value='country'></option>
+								<option value='dance'></option>
+								<option value='dancehall'></option>
+								<option value='death-metal'></option>
+								<option value='deep-house'></option>
+								<option value='detroit-techno'></option>
+								<option value='disco'></option>
+								<option value='disney'></option>
+								<option value='dub'></option>
+								<option value='dubstep'></option>
+								<option value='edm'></option>
+								<option value='electro'></option>
+								<option value='electronic'></option>
+								<option value='emo'></option>
+								<option value='folk'></option>
+								<option value='french'></option>
+								<option value='funk'></option>
+								<option value='garage'></option>
+								<option value='german'></option>
+								<option value='goth'></option>
+								<option value='groove'></option>
+								<option value='grunge'></option>
+								<option value='guitar'></option>
+								<option value='happy'></option>
+								<option value='hard-rock'></option>
+								<option value='hardcore'></option>
+								<option value='hardstyle'></option>
+								<option value='heavy-metal'></option>
+								<option value='hip-hop'></option>
+								<option value='holidays'></option>
+								<option value='house'></option>
+								<option value='indian'></option>
+								<option value='indie'></option>
+								<option value='indie-pop'></option>
+								<option value='iranian'></option>
+								<option value='j-dance'></option>
+								<option value='j-idol'></option>
+								<option value='j-pop'></option>
+								<option value='j-rock'></option>
+								<option value='jazz'></option>
+								<option value='k-pop'></option>
+								<option value='kids'></option>
+								<option value='latino'></option>
+								<option value='malay'></option>
+								<option value='mandopop'></option>
+								<option value='metal'></option>
+								<option value='metalcore'></option>
+								<option value='minimal-techno'></option>
+								<option value='opera'></option>
+								<option value='pagode'></option>
+								<option value='party'></option>
+								<option value='philippines-opm'></option>
+								<option value='piano'></option>
+								<option value='pop'></option>
+								<option value='power-pop'></option>
+								<option value='progressive-house'></option>
+								<option value='psych-rock'></option>
+								<option value='punk'></option>
+								<option value='punk-rock'></option>
+								<option value='r-n-b'></option>
+								<option value='rainy-day'></option>
+								<option value='reggae'></option>
+								<option value='reggaeton'></option>
+								<option value='rock'></option>
+								<option value='road-trip'></option>
+								<option value='rock-n-roll'></option>
+								<option value='rockabilly'></option>
+								<option value='romance'></option>
+								<option value='sad'></option>
+								<option value='salsa'></option>
+								<option value='samba'></option>
+								<option value='show-tunes'></option>
+								<option value='singer-songwriter'></option>
+								<option value='ska'></option>
+								<option value='sleep'></option>
+								<option value='soul'></option>
+								<option value='soundtracks'></option>
+								<option value='spanish'></option>
+								<option value='study'></option>
+								<option value='summer'></option>
+								<option value='swedish'></option>
+								<option value='synth-pop'></option>
+								<option value='tango'></option>
+								<option value='techno'></option>
+								<option value='trance'></option>
+								<option value='trip-hop'></option>
+								<option value='turkish'></option>
+								<option value='work-out'></option>
+								<option value='world-music'></option>
+							</datalist>
+						</div>
+					</div>
+					<div>
+						<RadarChart captions={captions} data={data} size={450} />
+					</div>
 				</div>
 				<div>
 					<button
@@ -150,83 +329,11 @@ const Main = () => {
 							);
 						}}
 					>
-						Button
+						Search
 					</button>
 				</div>
-				<div>
-					<div>
-						<label>Genre</label>
-						<select name='genre' onChange={handleGenre}>
-							<option value='pop'>Pop</option>
-							<option value='country'>Country</option>
-						</select>
-						<h3>Genre Chosen: {genre}</h3>
-					</div>
-					<div>
-						<label>Acousticness</label>
-						<input
-							type='range'
-							value={acousticness}
-							onChange={(e) => {
-								handleAcousticness(e);
-							}}
-							min='0'
-							max='1'
-							step='0.1'
-						/>
-						<h5 className='data-value'>{acousticness}</h5>
-					</div>
-					<div>
-						<label>Danceability</label>
-						<input
-							type='range'
-							value={danceability}
-							onChange={handleDanceability}
-							min='0'
-							max='1'
-							step='0.1'
-						/>
-						<h5 className='data-value'>{danceability}</h5>
-					</div>
-					<div>
-						<label>Energy</label>
-						<input
-							type='range'
-							value={energy}
-							onChange={handleEnergy}
-							min='0'
-							max='1'
-							step='0.1'
-						/>
-						<h5 className='data-value'>{energy}</h5>
-					</div>
-					<div>
-						<label>Instrumentalness</label>
-						<input
-							type='range'
-							value={instrumentalness}
-							onChange={handleInstrumentalness}
-							min='0'
-							max='1'
-							step='0.1'
-						/>
-						<h5 className='data-value'>{instrumentalness}</h5>
-					</div>
-					<div>
-						<label>Valence</label>
-						<input
-							type='range'
-							value={valence}
-							onChange={handleValence}
-							min='0'
-							max='1'
-							step='0.1'
-						/>
-						<h5 className='data-value'>{valence}</h5>
-					</div>
-				</div>
 			</div>
-			<div>
+			<div className='song-list'>
 				{tracks &&
 					tracks.map((track) => {
 						return (
