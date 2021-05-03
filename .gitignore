@@ -1,1 +1,9 @@
 /client/node_modules
+
+/client/src/fonts
+
+/backend/.env
+
+/backend/node_modules
+
+.env

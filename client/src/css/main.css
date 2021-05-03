@@ -1,0 +1,27 @@
+@font-face {
+	font-family: quicksand-reg;
+	src: url(../fonts/Quicksand-Regular.ttf);
+}
+
+@font-face {
+	font-family: quicksand-light;
+	src: url(../fonts/Quicksand-Light.ttf);
+}
+
+@font-face {
+	font-family: Mandali;
+	src: url(../fonts/Mandali-Regular.ttf);
+}
+.container {
+	font-family: Mandali;
+	font-size: 1.7em;
+	text-align: center;
+}
+
+* {
+	background-color: rgb(243, 243, 243);
+}
+
+.data-value {
+	margin-top: 0;
+}
