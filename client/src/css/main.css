@@ -38,14 +38,23 @@ h5 {
 	font-size: 0.95rem;
 }
 
-h3 {
+label,
+input {
+	margin: 0;
+	padding: 0;
+}
+
+h4 {
 	font-family: Mandali;
 	font-size: 0.9rem;
+}
+
+.mr-bottom {
 	margin-top: 0;
 	margin-bottom: 1rem;
 }
 
-h4 {
+h3 {
 	font-family: Mandali;
 	font-size: 1.1rem;
 	margin: 0;
@@ -59,6 +68,23 @@ h4 {
 	height: 100%;
 }
 
+.container-1-sub-1 {
+	width: 33.33%;
+}
+
+.container-1-sub-2 {
+	width: 33.33%;
+	height: 100%;
+}
+
+.container-1-sub-3 {
+	width: 33.33%;
+}
+
+.artist-picture {
+	height: 90%;
+}
+
 button {
 	font-family: Mandali;
 	font-size: 1.2rem;
@@ -66,6 +92,14 @@ button {
 	border-radius: 15%;
 	padding: 0% 0.5% 0% 0.5%;
 	margin-bottom: 2%;
+}
+
+.center-button-div {
+	text-align: center;
+}
+
+.button-margin {
+	margin-top: 1rem;
 }
 
 .chart-container {
@@ -85,4 +119,38 @@ button {
 	text-align: center;
 	justify-content: center;
 	margin: 0;
+	width: 100%;
+}
+
+.artist-song-img {
+	margin-bottom: 0;
+	padding: 0;
+}
+
+.artist-song-img:hover {
+	opacity: 0.5;
+	transition: 0.2s;
+}
+
+.album-song-text {
+	margin-top: 0;
+	margin-bottom: 1rem;
+	padding: 0;
+}
+
+.album-song-maintext {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 0;
+}
+
+.album-song-subtext {
+	margin-top: 0;
+	margin-bottom: 1rem;
+	padding: 0;
+}
+
+.song-list-title {
+	text-align: center;
+	font-size: 1.5rem;
 }

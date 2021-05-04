@@ -19,6 +19,14 @@ const Main = (code) => {
 	const [tracks, setTracks] = useState([]);
 	const [artistID, setArtistID] = useState('');
 	const [trackID, setTrackID] = useState('');
+	const [hideArtists, setHideArtists] = useState(true);
+	const [hideTracks, setHideTracks] = useState(true);
+	const [artist_src, setArtist_src] = useState('');
+	const [track_src, setTrack_src] = useState('');
+	const [artist_name, setArtist_name] = useState('');
+	const [track_name, setTrack_name] = useState('');
+	const [track_artist_name, setTrack_artist_name] = useState('');
+	const [track_uris, setTrack_uris] = useState([]);
 
 	useEffect(() => {
 		const requestObj = {
@@ -88,6 +96,14 @@ const Main = (code) => {
 			});
 	}, [accessToken]);
 
+	useLayoutEffect(() => {
+		const updateTrack_uris = async () => {
+			let track_uri_list = await tracks.map((song) => song.uri);
+			await setTrack_uris(track_uri_list);
+		};
+		updateTrack_uris();
+	}, [tracks]);
+
 	const handleGenre = (e) => {
 		setGenre(e.target.value);
 	};
@@ -127,64 +143,51 @@ const Main = (code) => {
 			.then(async (res) => {
 				console.log(res.data.body);
 				await setTracks(res.data.body.tracks);
-				console.log(tracks);
 			})
 			.catch((err) => {
 				console.log(err);
+				window.alert(err);
 			});
 	};
 
-	const handleClickArtist = (e, id) => {
+	const handleClickArtist = (e, id, src, name) => {
 		e.preventDefault();
-		console.log(id);
 		setArtistID(id);
+		setArtist_src(src);
+		setArtist_name(name);
 	};
 
-	const handleClickTrack = (e, id) => {
+	const handleClickTrack = (e, id, src, name, artist_name) => {
 		e.preventDefault();
-		console.log(id);
 		setTrackID(id);
+		setTrack_src(src);
+		setTrack_name(name);
+		setTrack_artist_name(artist_name);
 	};
 
-	let data = [
-		{
-			data: {
-				acousticness: 0.2,
-				danceability: 0.3,
-				energy: 0.3,
-				instrumentalness: 1,
-				valence: 0.3,
-			},
-			meta: { color: 'blue' },
-		},
-		{
-			data: {
-				acousticness: 0.7,
-				danceability: 0.5,
-				energy: 0.4,
-				instrumentalness: 0.6,
-				valence: 0.8,
-			},
-			meta: { color: 'green' },
-		},
-		{
-			data: {
-				acousticness: 0.1,
-				danceability: 0.8,
-				energy: 0.9,
-				instrumentalness: 0.5,
-				valence: 0.6,
-			},
-			meta: { color: 'red' },
-		},
-	];
+	const handleHideArtists = (e) => {
+		e.preventDefault();
+		setHideArtists(!hideArtists);
+	};
 
-	let captions = {
-		acousticness: 'Acousticness',
-		danceability: 'Danceability',
-		energy: 'Energy',
-		instrumentalness: 'Instrumentalness',
-		valence: 'Valence',
+	const handleHideTracks = (e) => {
+		e.preventDefault();
+		setHideTracks(!hideTracks);
+	};
+
+	const handleNewPlaylist = (e) => {
+		e.preventDefault();
+		console.log(track_uris);
+		const requestObj = {
+			accessToken: accessToken,
+			track_uris: track_uris,
+			playlist_name:
+				'rhythm-query: ' + genre + artist_name + ' + ' + track_name,
+		};
+
+		axios.post('http://localhost:3012/playlist', requestObj).then((res) => {
+			console.log(res);
+		});
 	};
 
 	return (
@@ -194,113 +197,94 @@ const Main = (code) => {
 					<h1>rhythm-query</h1>
 				</div>
 
-				<h3>
+				<h4 className='mr-bottom'>
 					Here are a list of your Top Artists on Spotify. Click on one to get
 					songs similar to their style:
-				</h3>
-				<div className='top-artists'>
-					{topArtists &&
-						topArtists.map((artist) => {
-							const artist_id = artist.id;
-							return (
-								<div id={artist_id}>
-									<img
-										onClick={(e) => handleClickArtist(e, artist_id)}
-										src={artist.images[0].url}
-										height='160px'
-										width='160px'
-									></img>
-									<h3>{artist.name}</h3>
-								</div>
-							);
-						})}
-				</div>
-				<h3>
+				</h4>
+				{hideArtists ? (
+					<button onClick={(e) => handleHideArtists(e)}>
+						Click to see your Top Artists on Spotify
+					</button>
+				) : (
+					<div>
+						<button onClick={(e) => handleHideArtists(e)}>
+							Click to hide list of Top Artists
+						</button>
+						<div className='top-artists'>
+							{topArtists &&
+								topArtists.map((artist) => {
+									const artist_id = artist.id;
+									const img_src = artist.images[0].url;
+									const artist_name = artist.name;
+									return (
+										<div id={artist_id}>
+											<img
+												className='artist-song-img'
+												onClick={(e) =>
+													handleClickArtist(e, artist_id, img_src, artist_name)
+												}
+												src={artist.images[0].url}
+												height='150px'
+												width='150px'
+											></img>
+											<h4 className='album-song-text'>{artist.name}</h4>
+										</div>
+									);
+								})}
+						</div>
+					</div>
+				)}
+
+				<h4 className='mr-bottom'>
 					Here are a list of your Top Tracks on Spotify. Click on one to get
 					songs similar to its style:
-				</h3>
-				<div className='top-tracks'>
-					{topTracks &&
-						topTracks.map((song) => {
-							const track_id = song.id;
-							return (
-								<div>
-									<img
-										onClick={(e) => handleClickTrack(e, track_id)}
-										src={song.album.images[0].url}
-										height='160px'
-										width='160px'
-									></img>
-									<h4>{song.name}</h4>
-									<h3>{song.artists[0].name}</h3>
-								</div>
-							);
-						})}
-				</div>
-				<div className='container-1'>
+				</h4>
+				{hideTracks ? (
+					<button onClick={(e) => handleHideTracks(e)}>
+						Click to see your Top Tracks on Spotify
+					</button>
+				) : (
 					<div>
-						<div>
-							<label>Acousticness: </label>
-							<input
-								type='range'
-								value={acousticness}
-								onChange={(e) => {
-									handleAcousticness(e);
-								}}
-								min='0'
-								max='1'
-								step='0.1'
-							/>
-							<h5 className='data-value'>{acousticness}</h5>
+						<button onClick={(e) => handleHideTracks(e)}>
+							Click to hide list of Top Tracks
+						</button>
+						<div className='top-tracks'>
+							{topTracks &&
+								topTracks.map((song) => {
+									const track_id = song.id;
+									const img_src = song.album.images[0].url;
+									const track_name = song.name;
+									const track_artist_name = song.artists[0].name;
+									return (
+										<div>
+											<img
+												className='artist-song-img'
+												onClick={(e) =>
+													handleClickTrack(
+														e,
+														track_id,
+														img_src,
+														track_name,
+														track_artist_name
+													)
+												}
+												src={song.album.images[0].url}
+												height='150px'
+												width='150px'
+											></img>
+											<h4 className='album-song-maintext'>{song.name}</h4>
+											<h4 className='album-song-subtext'>
+												{song.artists[0].name}
+											</h4>
+										</div>
+									);
+								})}
 						</div>
-						<div>
-							<label>Danceability: </label>
-							<input
-								type='range'
-								value={danceability}
-								onChange={handleDanceability}
-								min='0'
-								max='1'
-								step='0.1'
-							/>
-							<h5 className='data-value'>{danceability}</h5>
-						</div>
-						<div>
-							<label>Energy: </label>
-							<input
-								type='range'
-								value={energy}
-								onChange={handleEnergy}
-								min='0'
-								max='1'
-								step='0.1'
-							/>
-							<h5 className='data-value'>{energy}</h5>
-						</div>
-						<div>
-							<label>Instrumentalness: </label>
-							<input
-								type='range'
-								value={instrumentalness}
-								onChange={handleInstrumentalness}
-								min='0'
-								max='1'
-								step='0.1'
-							/>
-							<h5 className='data-value'>{instrumentalness}</h5>
-						</div>
-						<div>
-							<label>Valence: </label>
-							<input
-								type='range'
-								value={valence}
-								onChange={handleValence}
-								min='0'
-								max='1'
-								step='0.1'
-							/>
-							<h5 className='data-value'>{valence}</h5>
-						</div>
+					</div>
+				)}
+
+				<div className='container-1'>
+					<div className='container-1-sub-1'>
 						<div>
 							<label>Genre: </label>
 							<input list='genres' onChange={handleGenre}></input>
@@ -414,30 +398,113 @@ const Main = (code) => {
 								<option value='world-music'></option>
 							</datalist>
 						</div>
-					</div>
-					<div>
-						<div className='chart-container'>
-							<RadarChart data={data} captions={captions} size={375} />
+						<div>
+							<label>Acousticness: </label>
+							<input
+								type='range'
+								value={acousticness}
+								onChange={(e) => {
+									handleAcousticness(e);
+								}}
+								min='0'
+								max='1'
+								step='0.1'
+							/>
 						</div>
-						<div className='legend-container'>
-							<h5>
-								Legend: <br /> Example Lofi Hip-Hop song - Blue
-								<br /> Example Country song - Green
-								<br /> Example Hip Hop song - Red
-							</h5>
+						<div>
+							<label>Danceability: </label>
+							<input
+								type='range'
+								value={danceability}
+								onChange={handleDanceability}
+								min='0'
+								max='1'
+								step='0.1'
+							/>
+						</div>
+						<div>
+							<label>Energy: </label>
+							<input
+								type='range'
+								value={energy}
+								onChange={handleEnergy}
+								min='0'
+								max='1'
+								step='0.1'
+							/>
+						</div>
+						<div>
+							<label>Instrumentalness: </label>
+							<input
+								type='range'
+								value={instrumentalness}
+								onChange={handleInstrumentalness}
+								min='0'
+								max='1'
+								step='0.1'
+							/>
+						</div>
+						<div>
+							<label>Valence: </label>
+							<input
+								type='range'
+								value={valence}
+								onChange={handleValence}
+								min='0'
+								max='1'
+								step='0.1'
+							/>
 						</div>
 					</div>
-				</div>
-				<div>
-					<button
-						onClick={(e) => {
-							handleSubmit(e);
-						}}
-					>
-						Search
-					</button>
+
+					<div className='container-1-sub-2'>
+						<div className='artist-picture'></div>
+						<h3>Chosen Seed Artist</h3>
+						<img
+							className='artist-song-img'
+							src={artist_src}
+							height='300px'
+							width='300px'
+						></img>
+						<h3>{artist_name}</h3>
+					</div>
+					<div className='container-1-sub-3'>
+						<h3>Chosen Seed Track</h3>
+						<img
+							className='artist-song-img'
+							src={track_src}
+							height='300px'
+							width='300px'
+						></img>
+						<h3>{track_name}</h3>
+						<h3>{track_artist_name}</h3>
+					</div>
 				</div>
 			</div>
+			<div className='center-button-div'>
+				<button
+					className='button-margin'
+					onClick={(e) => {
+						handleSubmit(e);
+					}}
+				>
+					Search
+				</button>
+			</div>
+
+			{tracks.length > 1 ? (
+				<div className='center-button-div'>
+					<h3 className='song-list-title'>Recommended Tracks:</h3>
+					<button
+						className='button-margin'
+						onClick={(e) => handleNewPlaylist(e)}
+					>
+						Create Playlist with Recommended Tracks
+					</button>
+				</div>
+			) : (
+				<div></div>
+			)}
 			<div className='song-list'>
 				{tracks &&
 					tracks.map((track) => {
@@ -445,10 +512,13 @@ const Main = (code) => {
 						return (
 							<div id={track_id}>
 								<a href={track.external_urls.spotify} target='_blank'>
-									<img src={track.album.images[1].url} />
+									<img
+										className='artist-song-img'
+										src={track.album.images[1].url}
+									/>
 								</a>
-								<h4>{track.name}</h4>
-								<h3>{track.artists[0].name}</h3>
+								<h3>{track.name}</h3>
+								<h4 className='mr-bottom'>{track.artists[0].name}</h4>
 							</div>
 						);
 					})}
