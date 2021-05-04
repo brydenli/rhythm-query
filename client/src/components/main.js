@@ -16,6 +16,8 @@ const Main = (code) => {
 	const [expiryDate, setExpiryDate] = useState('');
 	const [topArtists, setTopArtists] = useState([]);
 	const [topTracks, setTopTracks] = useState([]);
+	const [artist_seed_href, setArtist_seed_href] = useState('');
+	const [track_seed_href, setTrack_seed_href] = useState('');
 	const [tracks, setTracks] = useState([]);
 	const [artistID, setArtistID] = useState('');
 	const [trackID, setTrackID] = useState('');
@@ -150,19 +152,21 @@ const Main = (code) => {
 			});
 	};
 
-	const handleClickArtist = (e, id, src, name) => {
+	const handleClickArtist = (e, id, src, name, href) => {
 		e.preventDefault();
 		setArtistID(id);
 		setArtist_src(src);
 		setArtist_name(name);
+		setArtist_seed_href(href);
 	};
 
-	const handleClickTrack = (e, id, src, name, artist_name) => {
+	const handleClickTrack = (e, id, src, name, artist_name, href) => {
 		e.preventDefault();
 		setTrackID(id);
 		setTrack_src(src);
 		setTrack_name(name);
 		setTrack_artist_name(artist_name);
+		setTrack_seed_href(href);
 	};
 
 	const handleHideArtists = (e) => {
@@ -182,7 +186,13 @@ const Main = (code) => {
 			accessToken: accessToken,
 			track_uris: track_uris,
 			playlist_name:
-				'rhythm-query: ' + genre + artist_name + ' + ' + track_name,
+				'rhythm-query: ' +
+				'(' +
+				genre +
+				') ' +
+				artist_name +
+				' + ' +
+				track_name,
 		};
 
 		axios.post('http://localhost:3012/playlist', requestObj).then((res) => {
@@ -193,8 +203,9 @@ const Main = (code) => {
 	return (
 		<div>
 			<div className='container'>
-				<div>
-					<h1>rhythm-query</h1>
+				<div className='title-subcontainer-main'>
+					<h1 className='title'>rhythm-</h1>
+					<h1 className='style-2'>query</h1>
 				</div>
 
 				<h4 className='mr-bottom'>
@@ -216,12 +227,19 @@ const Main = (code) => {
 									const artist_id = artist.id;
 									const img_src = artist.images[0].url;
 									const artist_name = artist.name;
+									const href = artist.external_urls.spotify;
 									return (
-										<div id={artist_id}>
+										<div className='single-container'>
 											<img
 												className='artist-song-img'
 												onClick={(e) =>
-													handleClickArtist(e, artist_id, img_src, artist_name)
+													handleClickArtist(
+														e,
+														artist_id,
+														img_src,
+														artist_name,
+														href
+													)
 												}
 												src={artist.images[0].url}
 												height='150px'
@@ -255,8 +273,9 @@ const Main = (code) => {
 									const img_src = song.album.images[0].url;
 									const track_name = song.name;
 									const track_artist_name = song.artists[0].name;
+									const href = song.external_urls.spotify;
 									return (
-										<div>
+										<div className='single-container'>
 											<img
 												className='artist-song-img'
 												onClick={(e) =>
@@ -265,7 +284,8 @@ const Main = (code) => {
 														track_id,
 														img_src,
 														track_name,
-														track_artist_name
+														track_artist_name,
+														href
 													)
 												}
 												src={song.album.images[0].url}
@@ -273,9 +293,9 @@ const Main = (code) => {
 												width='150px'
 											></img>
 											<h4 className='album-song-maintext'>{song.name}</h4>
-											<h4 className='album-song-subtext'>
+											{/* <h4 className='album-song-subtext'>
 												{song.artists[0].name}
-											</h4>
+											</h4> */}
 										</div>
 									);
 								})}
@@ -456,29 +476,63 @@ const Main = (code) => {
 							/>
 						</div>
 					</div>
+					{artist_src ? (
+						<div className='container-1-sub-2'>
+							<h3>Chosen Seed Artist</h3>
+							<a href={artist_seed_href} target='_blank'>
+								<img
+									className='artist-song-img'
+									src={artist_src}
+									height='300px'
+									width='300px'
+								/>
+							</a>
+							<h3>{artist_name}</h3>
+						</div>
+					) : (
+						<div>
+							<div className='container-1-sub-2'>
+								<h3>Chosen Seed Artist</h3>
+								<a href='#'>
+									<img
+										className='artist-song-img'
+										src={artist_src}
+										height='300px'
+										width='300px'
+									/>
+								</a>
+								<h3>{artist_name}</h3>
+							</div>
+						</div>
+					)}
 
-					<div className='container-1-sub-2'>
-						<div className='artist-picture'></div>
-						<h3>Chosen Seed Artist</h3>
-						<img
-							className='artist-song-img'
-							src={artist_src}
-							height='300px'
-							width='300px'
-						></img>
-						<h3>{artist_name}</h3>
-					</div>
-					<div className='container-1-sub-3'>
-						<h3>Chosen Seed Track</h3>
-						<img
-							className='artist-song-img'
-							src={track_src}
-							height='300px'
-							width='300px'
-						></img>
-						<h3>{track_name}</h3>
-						<h3>{track_artist_name}</h3>
-					</div>
+					{track_src ? (
+						<div className='container-1-sub-3'>
+							<h3>Chosen Seed Track</h3>
+							<a href={track_seed_href} target='_blank'>
+								<img
+									className='artist-song-img'
+									src={track_src}
+									height='300px'
+									width='300px'
+								/>
+							</a>
+							<h3>{track_name}</h3>
+						</div>
+					) : (
+						<div className='container-1-sub-3'>
+							<h3>Chosen Seed Track</h3>
+							<a href='#'>
+								<img
+									className='artist-song-img'
+									src={track_src}
+									height='300px'
+									width='300px'
+								/>
+							</a>
+							<h3>{track_name}</h3>
+						</div>
+					)}
 				</div>
 			</div>
 			<div className='center-button-div'>
@@ -499,7 +553,7 @@ const Main = (code) => {
 						className='button-margin'
 						onClick={(e) => handleNewPlaylist(e)}
 					>
-						Create Playlist with Recommended Tracks
+						Add Playlist with Recommended Tracks
 					</button>
 				</div>
 			) : (
