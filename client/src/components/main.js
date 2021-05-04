@@ -85,6 +85,7 @@ const Main = (code) => {
 			})
 			.catch((err) => {
 				console.log(err);
+				window.alert(err);
 			});
 
 		axios
@@ -195,9 +196,14 @@ const Main = (code) => {
 				track_name,
 		};
 
-		axios.post('http://localhost:3012/playlist', requestObj).then((res) => {
-			console.log(res);
-		});
+		axios
+			.post('http://localhost:3012/playlist', requestObj)
+			.then((res) => {
+				console.log(res);
+			})
+			.then(() => {
+				window.alert('New Playlist added to your Spotify account!');
+			});
 	};
 
 	return (
@@ -465,7 +471,7 @@ const Main = (code) => {
 							/>
 						</div>
 						<div>
-							<label>Valence: </label>
+							<label>Positivity: </label>
 							<input
 								type='range'
 								value={valence}
