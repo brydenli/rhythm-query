@@ -78,7 +78,8 @@ button {
 	padding: 0;
 }
 
-.top-artists {
+.top-artists,
+.top-tracks {
 	display: flex;
 	flex-wrap: wrap;
 	text-align: center;

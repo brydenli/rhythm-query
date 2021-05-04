@@ -4,7 +4,7 @@ import 'react-svg-radar-chart/build/css/index.css';
 import axios from 'axios';
 import '../css/main.css';
 
-const Main = () => {
+const Main = (code) => {
 	const [genre, setGenre] = useState('pop');
 	const [acousticness, setAcousticness] = useState(0.5);
 	const [danceability, setDanceability] = useState(0.5);
@@ -15,15 +15,17 @@ const Main = () => {
 	const [refreshToken, setRefreshToken] = useState('');
 	const [expiryDate, setExpiryDate] = useState('');
 	const [topArtists, setTopArtists] = useState([]);
+	const [topTracks, setTopTracks] = useState([]);
 	const [tracks, setTracks] = useState([]);
+	const [artistID, setArtistID] = useState('');
+	const [trackID, setTrackID] = useState('');
 
 	useEffect(() => {
-		const path = window.location.href;
-		const code = path.slice(33);
-
 		const requestObj = {
 			code: code,
 		};
+
+		console.log(requestObj);
 
 		axios
 			.post('http://localhost:3012/token', requestObj)
@@ -36,19 +38,28 @@ const Main = () => {
 			})
 			.catch((err) => {
 				console.log(err);
-				window.location = '/login';
 			});
 	}, []);
 
 	useEffect(() => {
-		if (refreshToken || expiryDate) return;
-		const requestObj = {
-			refreshToken: refreshToken,
-		};
-		axios.post('http://localhost:3012/refresh', requestObj).then((res) => {
-			setAccessToken(res.data.access_token);
-			setExpiryDate(res.data.expiresIn);
-		});
+		if (!refreshToken || !expiryDate) return;
+		const expire = setInterval(() => {
+			const requestObj = {
+				refreshToken: refreshToken,
+			};
+			axios
+				.post('http://localhost:3012/refresh', requestObj)
+				.then((res) => {
+					setAccessToken(res.data.access_token);
+					setExpiryDate(res.data.expiresIn);
+				})
+				.catch((err) => {
+					console.log(err);
+					window.location('/');
+				});
+		}, (expiryDate - 60) * 1000);
+
+		return () => clearInterval(expire);
 	}, [refreshToken, expiryDate]);
 
 	useLayoutEffect(() => {
@@ -60,6 +71,17 @@ const Main = () => {
 			.post('http://localhost:3012/top_artists', requestObj)
 			.then((res) => {
 				setTopArtists(res.data);
+				console.log(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+
+		axios
+			.post('http://localhost:3012/top_tracks', requestObj)
+			.then((res) => {
+				setTopTracks(res.data);
+				console.log(res.data);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -85,16 +107,7 @@ const Main = () => {
 		setValence(e.target.value);
 	};
 
-	const handleSubmit = async (
-		e,
-		genre,
-		acousticness,
-		danceability,
-		energy,
-		instrumentalness,
-		valence,
-		accessToken
-	) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const requestObj = {
@@ -104,6 +117,8 @@ const Main = () => {
 			energy: energy,
 			instrumentalness: instrumentalness,
 			valence: valence,
+			seed_artists: artistID,
+			seed_tracks: trackID,
 			accessToken: accessToken,
 		};
 
@@ -117,6 +132,18 @@ const Main = () => {
 			.catch((err) => {
 				console.log(err);
 			});
+	};
+
+	const handleClickArtist = (e, id) => {
+		e.preventDefault();
+		console.log(id);
+		setArtistID(id);
+	};
+
+	const handleClickTrack = (e, id) => {
+		e.preventDefault();
+		console.log(id);
+		setTrackID(id);
 	};
 
 	let data = [
@@ -174,14 +201,38 @@ const Main = () => {
 				<div className='top-artists'>
 					{topArtists &&
 						topArtists.map((artist) => {
+							const artist_id = artist.id;
 							return (
-								<div>
+								<div id={artist_id}>
 									<img
-										src={artist.images[2].url}
+										onClick={(e) => handleClickArtist(e, artist_id)}
+										src={artist.images[0].url}
 										height='160px'
 										width='160px'
 									></img>
 									<h3>{artist.name}</h3>
+								</div>
+							);
+						})}
+				</div>
+				<h3>
+					Here are a list of your Top Tracks on Spotify. Click on one to get
+					songs similar to its style:
+				</h3>
+				<div className='top-tracks'>
+					{topTracks &&
+						topTracks.map((song) => {
+							const track_id = song.id;
+							return (
+								<div>
+									<img
+										onClick={(e) => handleClickTrack(e, track_id)}
+										src={song.album.images[0].url}
+										height='160px'
+										width='160px'
+									></img>
+									<h4>{song.name}</h4>
+									<h3>{song.artists[0].name}</h3>
 								</div>
 							);
 						})}
@@ -380,16 +431,7 @@ const Main = () => {
 				<div>
 					<button
 						onClick={(e) => {
-							handleSubmit(
-								e,
-								genre,
-								acousticness,
-								danceability,
-								energy,
-								instrumentalness,
-								valence,
-								accessToken
-							);
+							handleSubmit(e);
 						}}
 					>
 						Search
@@ -399,10 +441,12 @@ const Main = () => {
 			<div className='song-list'>
 				{tracks &&
 					tracks.map((track) => {
+						const track_id = track.id;
 						return (
-							<div>
-								<img src={track.album.images[1].url} />
-
+							<div id={track_id}>
+								<a href={track.external_urls.spotify} target='_blank'>
+									<img src={track.album.images[1].url} />
+								</a>
 								<h4>{track.name}</h4>
 								<h3>{track.artists[0].name}</h3>
 							</div>

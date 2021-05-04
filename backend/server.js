@@ -29,7 +29,8 @@ app.route('/login').get((req, res) => {
 });
 
 app.route('/token').post(async (req, res) => {
-	const code = req.body.code;
+	const code = req.body.code.code;
+	console.log(code);
 	const spotify_api = await new SpotifyWebApi({
 		redirectUri: redirect_uri,
 		clientId: process.env.client_id,
@@ -63,8 +64,8 @@ app.route('/query').post(async (req, res) => {
 	await spotify_api
 		.getRecommendations({
 			seed_genres: req.body.genre,
-			seed_artists: '4NHQUGzhtTLFvgF5SZesLK',
-			seed_tracks: '0c6xIDDpzE81m2q797ordA',
+			seed_artists: req.body.seed_artists,
+			seed_tracks: req.body.seed_tracks,
 			target_acousticness: req.body.acousticness,
 			target_danceability: req.body.danceability,
 			target_energy: req.body.energy,
@@ -96,6 +97,33 @@ app.route('/top_artists').post(async (req, res) => {
 				let top_artists = await response.body.items;
 				console.log(top_artists);
 				res.status(200).json(top_artists);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	} catch {
+		(err) => {
+			console.log(err);
+			res.status(400).json(err);
+		};
+	}
+});
+
+app.route('/top_tracks').post(async (req, res) => {
+	const spotify_api = await new SpotifyWebApi({
+		redirectUri: redirect_uri,
+		clientId: process.env.client_id,
+		clientSecret: process.env.client_secret,
+	});
+	await spotify_api.setAccessToken(req.body.accessToken);
+
+	try {
+		await spotify_api
+			.getMyTopTracks()
+			.then(async (response) => {
+				let top_tracks = await response.body.items;
+				console.log(top_tracks);
+				res.status(200).json(top_tracks);
 			})
 			.catch((err) => {
 				console.log(err);
