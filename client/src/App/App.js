@@ -1,18 +1,10 @@
 import Main from '../components/main';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from '../components/login';
 
+const code = new URLSearchParams(window.location.search).get('code');
+
 function App() {
-	return (
-		<div>
-			<Router>
-				<Switch>
-					<Route path='/login' exact component={Login} />
-					<Route path='/' component={Main} />
-				</Switch>
-			</Router>
-		</div>
-	);
+	return <div>{code ? <Main code={code} /> : <Login />}</div>;
 }
 
 export default App;
