@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import RadarChart from 'react-svg-radar-chart';
-import axios from 'axios';
 import 'react-svg-radar-chart/build/css/index.css';
+import axios from 'axios';
 import '../css/main.css';
 
 const Main = () => {
@@ -11,10 +11,10 @@ const Main = () => {
 	const [energy, setEnergy] = useState(0.5);
 	const [instrumentalness, setInstrumentalness] = useState(0.5);
 	const [valence, setValence] = useState(0.5);
-	const [data_, setData_] = useState([0.5, 0.5, 0.5, 0.5, 0.5]);
 	const [accessToken, setAccessToken] = useState('');
 	const [refreshToken, setRefreshToken] = useState('');
 	const [expiryDate, setExpiryDate] = useState('');
+	const [topArtists, setTopArtists] = useState([]);
 	const [tracks, setTracks] = useState([]);
 
 	useEffect(() => {
@@ -27,9 +27,9 @@ const Main = () => {
 
 		axios
 			.post('http://localhost:3012/token', requestObj)
-			.then((res) => {
+			.then(async (res) => {
 				console.log(res);
-				setAccessToken(res.data.accessToken);
+				await setAccessToken(res.data.accessToken);
 				setRefreshToken(res.data.refreshToken);
 				setExpiryDate(res.data.expiresIn);
 				window.history.pushState({}, null, '/');
@@ -50,6 +50,21 @@ const Main = () => {
 			setExpiryDate(res.data.expiresIn);
 		});
 	}, [refreshToken, expiryDate]);
+
+	useLayoutEffect(() => {
+		const requestObj = {
+			accessToken: accessToken,
+		};
+
+		axios
+			.post('http://localhost:3012/top_artists', requestObj)
+			.then((res) => {
+				setTopArtists(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, [accessToken]);
 
 	const handleGenre = (e) => {
 		setGenre(e.target.value);
@@ -104,20 +119,40 @@ const Main = () => {
 			});
 	};
 
-	const data = [
+	let data = [
 		{
 			data: {
-				acousticness: data_[0],
-				danceability: data_[1],
-				energy: data_[2],
-				instrumentalness: data_[3],
-				valence: data_[4],
+				acousticness: 0.2,
+				danceability: 0.3,
+				energy: 0.3,
+				instrumentalness: 1,
+				valence: 0.3,
+			},
+			meta: { color: 'blue' },
+		},
+		{
+			data: {
+				acousticness: 0.7,
+				danceability: 0.5,
+				energy: 0.4,
+				instrumentalness: 0.6,
+				valence: 0.8,
 			},
 			meta: { color: 'green' },
 		},
+		{
+			data: {
+				acousticness: 0.1,
+				danceability: 0.8,
+				energy: 0.9,
+				instrumentalness: 0.5,
+				valence: 0.6,
+			},
+			meta: { color: 'red' },
+		},
 	];
 
-	const captions = {
+	let captions = {
 		acousticness: 'Acousticness',
 		danceability: 'Danceability',
 		energy: 'Energy',
@@ -132,10 +167,29 @@ const Main = () => {
 					<h1>rhythm-query</h1>
 				</div>
 
+				<h3>
+					Here are a list of your Top Artists on Spotify. Click on one to get
+					songs similar to their style:
+				</h3>
+				<div className='top-artists'>
+					{topArtists &&
+						topArtists.map((artist) => {
+							return (
+								<div>
+									<img
+										src={artist.images[2].url}
+										height='160px'
+										width='160px'
+									></img>
+									<h3>{artist.name}</h3>
+								</div>
+							);
+						})}
+				</div>
 				<div className='container-1'>
 					<div>
 						<div>
-							<label>Acousticness</label>
+							<label>Acousticness: </label>
 							<input
 								type='range'
 								value={acousticness}
@@ -149,7 +203,7 @@ const Main = () => {
 							<h5 className='data-value'>{acousticness}</h5>
 						</div>
 						<div>
-							<label>Danceability</label>
+							<label>Danceability: </label>
 							<input
 								type='range'
 								value={danceability}
@@ -161,7 +215,7 @@ const Main = () => {
 							<h5 className='data-value'>{danceability}</h5>
 						</div>
 						<div>
-							<label>Energy</label>
+							<label>Energy: </label>
 							<input
 								type='range'
 								value={energy}
@@ -173,7 +227,7 @@ const Main = () => {
 							<h5 className='data-value'>{energy}</h5>
 						</div>
 						<div>
-							<label>Instrumentalness</label>
+							<label>Instrumentalness: </label>
 							<input
 								type='range'
 								value={instrumentalness}
@@ -185,7 +239,7 @@ const Main = () => {
 							<h5 className='data-value'>{instrumentalness}</h5>
 						</div>
 						<div>
-							<label>Valence</label>
+							<label>Valence: </label>
 							<input
 								type='range'
 								value={valence}
@@ -197,7 +251,7 @@ const Main = () => {
 							<h5 className='data-value'>{valence}</h5>
 						</div>
 						<div>
-							<label>Genre</label>
+							<label>Genre: </label>
 							<input list='genres' onChange={handleGenre}></input>
 							<datalist id='genres'>
 								<option value='acoustic'></option>
@@ -311,7 +365,16 @@ const Main = () => {
 						</div>
 					</div>
 					<div>
-						<RadarChart captions={captions} data={data} size={450} />
+						<div className='chart-container'>
+							<RadarChart data={data} captions={captions} size={375} />
+						</div>
+						<div className='legend-container'>
+							<h5>
+								Legend: <br /> Example Lofi Hip-Hop song - Blue
+								<br /> Example Country song - Green
+								<br /> Example Hip Hop song - Red
+							</h5>
+						</div>
 					</div>
 				</div>
 				<div>
@@ -340,8 +403,8 @@ const Main = () => {
 							<div>
 								<img src={track.album.images[1].url} />
 
-								<h3>{track.name}</h3>
-								<h4>{track.artists[0].name}</h4>
+								<h4>{track.name}</h4>
+								<h3>{track.artists[0].name}</h3>
 							</div>
 						);
 					})}

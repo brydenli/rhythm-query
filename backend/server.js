@@ -16,7 +16,7 @@ app.route('/').get((req, res) => {
 });
 
 app.route('/login').get((req, res) => {
-	var scopes = 'user-read-private user-read-email';
+	var scopes = 'user-read-private user-read-email user-top-read';
 	res.redirect(
 		'https://accounts.spotify.com/authorize' +
 			'?response_type=code' +
@@ -79,6 +79,33 @@ app.route('/query').post(async (req, res) => {
 		.catch((err) => {
 			console.log(err);
 		});
+});
+
+app.route('/top_artists').post(async (req, res) => {
+	const spotify_api = await new SpotifyWebApi({
+		redirectUri: redirect_uri,
+		clientId: process.env.client_id,
+		clientSecret: process.env.client_secret,
+	});
+	await spotify_api.setAccessToken(req.body.accessToken);
+
+	try {
+		await spotify_api
+			.getMyTopArtists()
+			.then(async (response) => {
+				let top_artists = await response.body.items;
+				console.log(top_artists);
+				res.status(200).json(top_artists);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	} catch {
+		(err) => {
+			console.log(err);
+			res.status(400).json(err);
+		};
+	}
 });
 
 app.route('/refresh').post((req, res) => {
