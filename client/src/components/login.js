@@ -2,7 +2,8 @@ import '../css/login.css';
 import axios from 'axios';
 
 const URL =
-	'https://accounts.spotify.com/authorize?response_type=code&client_id=4e716fccbad34912910fe5b374b1945c&scope=user-read-private%20user-read-email%20user-top-read%20playlist-modify-private&redirect_uri=https://rhythm-query.herokuapp.com/';
+	'https://accounts.spotify.com/authorize?response_type=code&client_id=4e716fccbad34912910fe5b374b1945c&scope=user-read-private%20user-read-email%20user-top-read%20playlist-modify-private&redirect_uri=' +
+	encodeURIComponent('https://rhythm-query.herokuapp.com/');
 
 const Login = () => {
 	return (
