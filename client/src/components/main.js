@@ -477,55 +477,53 @@ const Main = (code) => {
 							/>
 						</div>
 					</div>
-					<div className='subcontainer-flex'>
-						{artist_src ? (
+					{artist_src ? (
+						<div className='container-1-sub-2'>
+							<h3>Chosen Seed Artist</h3>
+							<a href={artist_seed_href} target='_blank'>
+								<img
+									className='artist-song-img'
+									src={artist_src}
+									height='300px'
+									width='300px'
+								/>
+							</a>
+							<h3>{artist_name}</h3>
+						</div>
+					) : (
+						<div>
 							<div className='container-1-sub-2'>
 								<h3>Chosen Seed Artist</h3>
-								<a href={artist_seed_href} target='_blank'>
-									<img
-										className='artist-song-img'
-										src={artist_src}
-										height='300px'
-										width='300px'
-									/>
+								<a href='#'>
+									<img className='artist-song-img' src={artist_src} />
 								</a>
 								<h3>{artist_name}</h3>
 							</div>
-						) : (
-							<div>
-								<div className='container-1-sub-2'>
-									<h3>Chosen Seed Artist</h3>
-									<a href='#'>
-										<img className='artist-song-img' src={artist_src} />
-									</a>
-									<h3>{artist_name}</h3>
-								</div>
-							</div>
-						)}
+						</div>
+					)}
 
-						{track_src ? (
-							<div className='container-1-sub-3'>
-								<h3>Chosen Seed Track</h3>
-								<a href={track_seed_href} target='_blank'>
-									<img className='artist-song-img' src={track_src} />
-								</a>
-								<h3>{track_name}</h3>
-							</div>
-						) : (
-							<div className='container-1-sub-3'>
-								<h3>Chosen Seed Track</h3>
-								<a href='#'>
-									<img
-										className='artist-song-img'
-										src={track_src}
-										height='300px'
-										width='300px'
-									/>
-								</a>
-								<h3>{track_name}</h3>
-							</div>
-						)}
-					</div>
+					{track_src ? (
+						<div className='container-1-sub-3'>
+							<h3>Chosen Seed Track</h3>
+							<a href={track_seed_href} target='_blank'>
+								<img className='artist-song-img' src={track_src} />
+							</a>
+							<h3>{track_name}</h3>
+						</div>
+					) : (
+						<div className='container-1-sub-3'>
+							<h3>Chosen Seed Track</h3>
+							<a href='#'>
+								<img
+									className='artist-song-img'
+									src={track_src}
+									height='300px'
+									width='300px'
+								/>
+							</a>
+							<h3>{track_name}</h3>
+						</div>
+					)}
 				</div>
 			</div>
 			<div className='center-button-div'>

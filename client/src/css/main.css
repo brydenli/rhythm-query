@@ -199,10 +199,6 @@ button {
 		width: 150px;
 	}
 
-	.subcontainer-flex {
-		width: 100%;
-	}
-
 	.container-1 {
 		display: inline-flex;
 		flex-wrap: wrap;
