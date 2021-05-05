@@ -126,6 +126,10 @@ const Main = (code) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (!artistID || !trackID) {
+			window.alert('Please select both a seed artist and seed track');
+			return;
+		}
 
 		const requestObj = {
 			genre: genre,
