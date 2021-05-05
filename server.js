@@ -1,15 +1,23 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const SpotifyWebApi = require('spotify-web-api-node');
 
 require('dotenv').config();
 
 const app = express();
-const port = 3012;
+const port = process.env.PORT || 3012;
 const redirect_uri = 'http://localhost:3000/main/';
 
 app.use(express.json());
 app.use(cors());
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, 'client/build')));
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+	});
+}
 
 app.route('/').get((req, res) => {
 	res.status(200).json('message received');
