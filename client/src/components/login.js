@@ -16,7 +16,7 @@ const Login = () => {
 				</div>
 			</div>
 			<div className='login-button-div'>
-				<a href='/login' className='login-button'>
+				<a href='http://localhost:3012/login' className='login-button'>
 					Login to Spotify
 				</a>
 			</div>

@@ -38,7 +38,7 @@ const Main = (code) => {
 		console.log(requestObj);
 
 		axios
-			.post('/token', requestObj)
+			.post('http://localhost:3012/token', requestObj)
 			.then(async (res) => {
 				console.log(res);
 				await setAccessToken(res.data.accessToken);
@@ -58,7 +58,7 @@ const Main = (code) => {
 				refreshToken: refreshToken,
 			};
 			axios
-				.post('/refresh', requestObj)
+				.post('http://localhost:3012/refresh', requestObj)
 				.then((res) => {
 					setAccessToken(res.data.access_token);
 					setExpiryDate(res.data.expiresIn);
@@ -78,7 +78,7 @@ const Main = (code) => {
 		};
 
 		axios
-			.post('/top_artists', requestObj)
+			.post('http://localhost:3012/top_artists', requestObj)
 			.then((res) => {
 				setTopArtists(res.data);
 				console.log(res.data);
@@ -89,7 +89,7 @@ const Main = (code) => {
 			});
 
 		axios
-			.post('/top_tracks', requestObj)
+			.post('http://localhost:3012/top_tracks', requestObj)
 			.then((res) => {
 				setTopTracks(res.data);
 				console.log(res.data);
@@ -142,7 +142,7 @@ const Main = (code) => {
 		};
 
 		axios
-			.post('/query', requestObj)
+			.post('http://localhost:3012/query', requestObj)
 			.then(async (res) => {
 				console.log(res.data.body);
 				await setTracks(res.data.body.tracks);
@@ -197,7 +197,7 @@ const Main = (code) => {
 		};
 
 		axios
-			.post('/playlist', requestObj)
+			.post('http://localhost:3012/playlist', requestObj)
 			.then((res) => {
 				console.log(res);
 			})
