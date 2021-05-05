@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import 'react-svg-radar-chart/build/css/index.css';
 import axios from 'axios';
 import '../css/main.css';
 
