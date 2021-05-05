@@ -74,14 +74,6 @@ h3 {
 	margin: 0;
 }
 
-.container-1 {
-	display: inline-flex;
-	width: 100%;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-}
-
 button {
 	font-family: Mandali;
 	font-size: 1rem;
@@ -170,6 +162,14 @@ button {
 		width: 150px;
 	}
 
+	.container-1 {
+		display: inline-flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+
 	.container-1-sub-1 {
 		width: 33.33%;
 	}
@@ -197,6 +197,19 @@ button {
 		padding: 0;
 		height: 150px;
 		width: 150px;
+	}
+
+	.subcontainer-flex {
+		width: 100%;
+	}
+
+	.container-1 {
+		display: inline-flex;
+		flex-wrap: wrap;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
 	}
 
 	.container-1-sub-1 {
