@@ -45,7 +45,7 @@ app.route('/token').post(async (req, res) => {
 		clientId: process.env.client_id,
 		clientSecret: process.env.client_secret,
 	});
-
+	console.log('new spotify api created');
 	await spotify_api
 		.authorizationCodeGrant(code)
 		.then((response) => {

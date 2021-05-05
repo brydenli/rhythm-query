@@ -34,6 +34,7 @@ const Main = (code) => {
 		const requestObj = {
 			code: code,
 		};
+		console.log(code);
 
 		console.log(requestObj);
 
