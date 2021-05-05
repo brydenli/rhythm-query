@@ -236,7 +236,7 @@ const Main = (code) => {
 									return (
 										<div className='single-container'>
 											<img
-												className='artist-song-img'
+												className='top-artist-song-img'
 												onClick={(e) =>
 													handleClickArtist(
 														e,
@@ -247,8 +247,6 @@ const Main = (code) => {
 													)
 												}
 												src={artist.images[0].url}
-												height='150px'
-												width='150px'
 											></img>
 											<h4 className='album-song-text'>{artist.name}</h4>
 										</div>
@@ -282,7 +280,7 @@ const Main = (code) => {
 									return (
 										<div className='single-container'>
 											<img
-												className='artist-song-img'
+												className='top-artist-song-img'
 												onClick={(e) =>
 													handleClickTrack(
 														e,
@@ -294,8 +292,6 @@ const Main = (code) => {
 													)
 												}
 												src={song.album.images[0].url}
-												height='150px'
-												width='150px'
 											></img>
 											<h4 className='album-song-maintext'>{song.name}</h4>
 											{/* <h4 className='album-song-subtext'>
