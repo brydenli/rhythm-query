@@ -22,11 +22,7 @@ const Login = () => {
 				</div>
 			</div>
 			<div className='login-button-div'>
-				<button
-					href='/login'
-					onClick={(e) => handleLogin(e)}
-					className='login-button'
-				>
+				<button onClick={(e) => handleLogin(e)} className='login-button'>
 					Login to Spotify
 				</button>
 			</div>
