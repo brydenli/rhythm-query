@@ -1,4 +1,8 @@
 import '../css/login.css';
+import axios from 'axios';
+
+const URL =
+	'https://accounts.spotify.com/authorize?response_type=code&client_id=4e716fccbad34912910fe5b374b1945c&scope=user-read-private%20user-read-email%20user-top-read%20playlist-modify-private&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fmain%2F';
 
 const Login = () => {
 	return (
@@ -16,7 +20,7 @@ const Login = () => {
 				</div>
 			</div>
 			<div className='login-button-div'>
-				<a href='/login' className='login-button'>
+				<a href={URL} className='login-button'>
 					Login to Spotify
 				</a>
 			</div>
