@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3012;
-const redirect_uri = 'http://localhost:3000/main/';
+const redirect_uri = 'https://rhythm-query.herokuapp.com/';
 
 app.use(express.json());
 app.use(cors());
