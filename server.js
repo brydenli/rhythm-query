@@ -6,7 +6,7 @@ const SpotifyWebApi = require('spotify-web-api-node');
 require('dotenv').config();
 
 const app = express();
-const port = 3012;
+const port = process.env.PORT || 3012;
 const redirect_uri = 'http://localhost:3000/main/';
 
 app.use(express.json());
