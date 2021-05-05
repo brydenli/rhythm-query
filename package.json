@@ -1,7 +1,7 @@
 {
 	"name": "js",
 	"version": "1.0.0",
-	"description": "",
+	"description": "rhythm-query server",
 	"engines": {
 		"node": "14.16.1",
 		"npm": "6.14.12"

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import RadarChart from 'react-svg-radar-chart';
 import 'react-svg-radar-chart/build/css/index.css';
 import axios from 'axios';
 import '../css/main.css';
@@ -294,9 +293,6 @@ const Main = (code) => {
 												src={song.album.images[0].url}
 											></img>
 											<h4 className='album-song-maintext'>{song.name}</h4>
-											{/* <h4 className='album-song-subtext'>
-												{song.artists[0].name}
-											</h4> */}
 										</div>
 									);
 								})}
