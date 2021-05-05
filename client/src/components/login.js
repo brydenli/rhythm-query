@@ -1,12 +1,6 @@
 import '../css/login.css';
-import axios from 'axios';
 
 const Login = () => {
-	const handleLogin = (e) => {
-		e.preventDefault();
-		axios.get('/login').then((res) => console.log(res));
-	};
-
 	return (
 		<div>
 			<div className='title-container'>
@@ -22,9 +16,9 @@ const Login = () => {
 				</div>
 			</div>
 			<div className='login-button-div'>
-				<button onClick={(e) => handleLogin(e)} className='login-button'>
+				<a href='/login' className='login-button'>
 					Login to Spotify
-				</button>
+				</a>
 			</div>
 		</div>
 	);
