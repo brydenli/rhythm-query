@@ -499,12 +499,7 @@ const Main = (code) => {
 							<div className='container-1-sub-2'>
 								<h3>Chosen Seed Artist</h3>
 								<a href='#'>
-									<img
-										className='artist-song-img'
-										src={artist_src}
-										height='300px'
-										width='300px'
-									/>
+									<img className='artist-song-img' src={artist_src} />
 								</a>
 								<h3>{artist_name}</h3>
 							</div>
@@ -515,12 +510,7 @@ const Main = (code) => {
 						<div className='container-1-sub-3'>
 							<h3>Chosen Seed Track</h3>
 							<a href={track_seed_href} target='_blank'>
-								<img
-									className='artist-song-img'
-									src={track_src}
-									height='300px'
-									width='300px'
-								/>
+								<img className='artist-song-img' src={track_src} />
 							</a>
 							<h3>{track_name}</h3>
 						</div>
