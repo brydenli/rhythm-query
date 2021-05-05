@@ -127,7 +127,7 @@ const Main = (code) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!artistID || !trackID) {
-			window.alert('Please select both a seed artist and seed track');
+			window.alert('Please select both a Seed Artist and Seed Track');
 			return;
 		}
 
