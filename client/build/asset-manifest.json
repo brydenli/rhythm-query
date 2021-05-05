@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.16590261.chunk.css",
+    "main.js": "/static/js/main.f3d7339d.chunk.js",
+    "main.js.map": "/static/js/main.f3d7339d.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.48892aa8.js",
+    "runtime-main.js.map": "/static/js/runtime-main.48892aa8.js.map",
+    "static/css/2.a4e45bde.chunk.css": "/static/css/2.a4e45bde.chunk.css",
+    "static/js/2.fa758469.chunk.js": "/static/js/2.fa758469.chunk.js",
+    "static/js/2.fa758469.chunk.js.map": "/static/js/2.fa758469.chunk.js.map",
+    "static/js/3.1a8c8e9b.chunk.js": "/static/js/3.1a8c8e9b.chunk.js",
+    "static/js/3.1a8c8e9b.chunk.js.map": "/static/js/3.1a8c8e9b.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.a4e45bde.chunk.css.map": "/static/css/2.a4e45bde.chunk.css.map",
+    "static/css/main.16590261.chunk.css.map": "/static/css/main.16590261.chunk.css.map",
+    "static/js/2.fa758469.chunk.js.LICENSE.txt": "/static/js/2.fa758469.chunk.js.LICENSE.txt",
+    "static/media/login.css": "/static/media/Mandali-Regular.8e5ea45a.ttf",
+    "static/media/main.css": "/static/media/Quicksand-Regular.cffc2790.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.48892aa8.js",
+    "static/css/2.a4e45bde.chunk.css",
+    "static/js/2.fa758469.chunk.js",
+    "static/css/main.16590261.chunk.css",
+    "static/js/main.f3d7339d.chunk.js"
+  ]
+}
