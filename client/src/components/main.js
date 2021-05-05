@@ -86,7 +86,6 @@ const Main = (code) => {
 			})
 			.catch((err) => {
 				console.log(err);
-				window.alert(err);
 			});
 
 		axios
@@ -150,7 +149,6 @@ const Main = (code) => {
 			})
 			.catch((err) => {
 				console.log(err);
-				window.alert(err);
 			});
 	};
 
