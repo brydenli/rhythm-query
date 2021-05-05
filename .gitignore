@@ -1,7 +1,5 @@
 /client/node_modules
 
-/client/src/fonts
-
 /node_modules
 
 .env
