@@ -116,6 +116,11 @@ button {
 	transition: 0.2s;
 }
 
+.top-artist-song-img:hover {
+	opacity: 0.5;
+	transition: 0.2s;
+}
+
 .album-song-text {
 	margin-top: 0;
 	margin-bottom: 1rem;
