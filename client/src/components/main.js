@@ -232,9 +232,12 @@ const Main = (code) => {
 							{topArtists &&
 								topArtists.map((artist) => {
 									const artist_id = artist.id;
-									const img_src = artist.images[0].url;
 									const artist_name = artist.name;
 									const href = artist.external_urls.spotify;
+									const img_src = '';
+									if (artist.images[0].url) {
+										img_src = artist.images[0].url;
+									}
 									return (
 										<div className='single-container'>
 											<img
