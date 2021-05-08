@@ -231,7 +231,7 @@ const Main = (code) => {
 						<div className='top-artists'>
 							{topArtists &&
 								topArtists.map((artist) => {
-									if (artist.images[0].url) {
+									if (artist.images.length > 0) {
 										const artist_id = artist.id;
 										const artist_name = artist.name;
 										const href = artist.external_urls.spotify;
