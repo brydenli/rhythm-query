@@ -231,31 +231,31 @@ const Main = (code) => {
 						<div className='top-artists'>
 							{topArtists &&
 								topArtists.map((artist) => {
-									const artist_id = artist.id;
-									const artist_name = artist.name;
-									const href = artist.external_urls.spotify;
-									const img_src = '';
 									if (artist.images[0].url) {
-										img_src = artist.images[0].url;
+										const artist_id = artist.id;
+										const artist_name = artist.name;
+										const href = artist.external_urls.spotify;
+										const img_src = artist.images[0].url;
+
+										return (
+											<div className='single-container'>
+												<img
+													className='top-artist-song-img'
+													onClick={(e) =>
+														handleClickArtist(
+															e,
+															artist_id,
+															img_src,
+															artist_name,
+															href
+														)
+													}
+													src={artist.images[0].url}
+												></img>
+												<h4 className='album-song-text'>{artist.name}</h4>
+											</div>
+										);
 									}
-									return (
-										<div className='single-container'>
-											<img
-												className='top-artist-song-img'
-												onClick={(e) =>
-													handleClickArtist(
-														e,
-														artist_id,
-														img_src,
-														artist_name,
-														href
-													)
-												}
-												src={artist.images[0].url}
-											></img>
-											<h4 className='album-song-text'>{artist.name}</h4>
-										</div>
-									);
 								})}
 						</div>
 					</div>
