@@ -1,5 +1,5 @@
 # rhythm-query
-Find recommendations for songs similar to your favourite tracks from your favourite artists! 
+Create playlists with recommended songs similar to your favourite tracks from your favourite artists! 
 
 Check out the project @https://rhythm-query.herokuapp.com/
 
